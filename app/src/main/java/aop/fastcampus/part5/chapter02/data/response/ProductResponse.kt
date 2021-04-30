@@ -9,7 +9,8 @@ data class ProductResponse(
     val productName: String,
     val productPrice: String,
     val productImage: String,
-    val productType: String
+    val productType: String,
+    val productIntroductionImage: String
 ) {
 
     fun toEntity(): ProductEntity =
@@ -19,7 +20,8 @@ data class ProductResponse(
             productName = productName,
             productPrice = productPrice.toDouble().toInt(),
             productImage = productImage,
-            productType = productType
+            productType = productType,
+            productIntroductionImage = productIntroductionImage
         )
 
 }

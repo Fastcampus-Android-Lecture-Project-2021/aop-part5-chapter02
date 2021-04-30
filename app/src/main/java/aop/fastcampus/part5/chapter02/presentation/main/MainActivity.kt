@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import aop.fastcampus.part5.chapter02.R
 import aop.fastcampus.part5.chapter02.databinding.ActivityMainBinding
 import aop.fastcampus.part5.chapter02.presentation.BaseActivity
+import aop.fastcampus.part5.chapter02.presentation.BaseFragment
+import aop.fastcampus.part5.chapter02.presentation.BaseViewModel
 import aop.fastcampus.part5.chapter02.presentation.list.ProductListFragment
 import aop.fastcampus.part5.chapter02.presentation.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,7 +25,15 @@ internal class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>()
         initViews()
     }
 
-    override fun observeData() = Unit
+    override fun observeData() = viewModel.mainStateLiveData.observe(this) {
+        when (it) {
+            is MainState.RefreshOrderList -> {
+                binding.bottomNav.selectedItemId = R.id.menu_profile
+                val fragment = supportFragmentManager.findFragmentByTag(ProfileFragment.TAG)
+                (fragment as? BaseFragment<*, *>)?.viewModel?.fetchData()
+            }
+        }
+    }
 
     private fun initViews() = with(binding) {
         bottomNav.setOnNavigationItemSelectedListener(this@MainActivity)
@@ -54,7 +64,7 @@ internal class MainActivity : BaseActivity<MainViewModel, ActivityMainBinding>()
         } ?: kotlin.run {
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragmentContainer, fragment, tag)
-                .commit()
+                .commitAllowingStateLoss()
         }
 
     }

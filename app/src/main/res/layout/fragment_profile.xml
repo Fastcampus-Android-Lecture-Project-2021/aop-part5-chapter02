@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="60dp"/>
+        android:layout_marginTop="24dp"/>
 
     <TextView
         android:id="@+id/userNameTextView"
@@ -30,6 +30,24 @@
         android:textColor="@color/black"
         android:layout_marginTop="8dp"/>
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/profileGroup"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:constraint_referenced_ids="profileImageView,userNameTextView,logoutButton"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/userNameTextView"
+        app:layout_constraintTop_toTopOf="@id/userNameTextView"
+        android:layout_margin="8dp"
+        android:text="@string/logout"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -40,6 +58,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:paddingHorizontal="8dp"
         app:spanCount="2"/>
 
     <TextView
@@ -49,9 +68,9 @@
         android:text="@string/empty_history_text"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="@id/recyclerView"
-        app:layout_constraintStart_toStartOf="recyclerView"
-        app:layout_constraintEnd_toEndOf="recyclerView"
-        app:layout_constraintBottom_toBottomOf="recyclerView"
+        app:layout_constraintStart_toStartOf="@id/recyclerView"
+        app:layout_constraintEnd_toEndOf="@id/recyclerView"
+        app:layout_constraintBottom_toBottomOf="@id/recyclerView"
         tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Group

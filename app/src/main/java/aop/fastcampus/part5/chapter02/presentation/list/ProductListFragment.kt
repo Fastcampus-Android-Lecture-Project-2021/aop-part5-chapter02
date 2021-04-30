@@ -1,10 +1,14 @@
 package aop.fastcampus.part5.chapter02.presentation.list
 
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isGone
 import aop.fastcampus.part5.chapter02.databinding.FragmentProductListBinding
 import aop.fastcampus.part5.chapter02.presentation.BaseFragment
 import aop.fastcampus.part5.chapter02.presentation.adapter.ProductListAdapter
+import aop.fastcampus.part5.chapter02.presentation.detail.ProductDetailActivity
+import aop.fastcampus.part5.chapter02.presentation.main.MainActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 internal class ProductListFragment : BaseFragment<ProductListViewModel, FragmentProductListBinding>() {
@@ -13,12 +17,18 @@ internal class ProductListFragment : BaseFragment<ProductListViewModel, Fragment
         const val TAG = "ProductListFragment"
     }
 
-    override fun getViewBinding(): FragmentProductListBinding =
-        FragmentProductListBinding.inflate(layoutInflater)
+    override fun getViewBinding(): FragmentProductListBinding = FragmentProductListBinding.inflate(layoutInflater)
 
     private val adapter = ProductListAdapter()
 
     override val viewModel by viewModel<ProductListViewModel>()
+
+    private val startProductDetailForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == ProductDetailActivity.PRODUCT_ORDERED_RESULT_CODE) {
+            (requireActivity() as MainActivity).viewModel.refreshOrderList()
+        }
+    }
 
     private fun initViews(binding: FragmentProductListBinding) = with(binding) {
         recyclerView.adapter = adapter
@@ -63,7 +73,9 @@ internal class ProductListFragment : BaseFragment<ProductListViewModel, Fragment
             emptyResultTextView.isGone = true
             recyclerView.isGone = false
             adapter.setProductList(state.productList) {
-                Toast.makeText(requireContext(), "아이템 클릭 : $it", Toast.LENGTH_SHORT).show()
+                startProductDetailForResult.launch(
+                    ProductDetailActivity.newIntent(requireContext(), it.id)
+                )
             }
         }
     }

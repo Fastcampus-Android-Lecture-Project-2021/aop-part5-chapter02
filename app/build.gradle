@@ -98,4 +98,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:20.0.4'
 
     implementation 'com.google.firebase:firebase-auth-ktx'
+
+    // Room library
+    implementation "androidx.room:room-runtime:2.3.0"
+    kapt "androidx.room:room-compiler:2.3.0"
+    implementation "androidx.room:room-ktx:2.3.0"
 }
