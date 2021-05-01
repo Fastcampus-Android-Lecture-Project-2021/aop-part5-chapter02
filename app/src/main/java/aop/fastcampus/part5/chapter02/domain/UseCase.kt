@@ -1,4 +1,4 @@
-package aop.fastcampus.part5.chapter01.domain
+package aop.fastcampus.part5.chapter02.domain
 
 interface UseCase {
 
