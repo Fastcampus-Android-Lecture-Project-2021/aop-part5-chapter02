@@ -1,4 +1,4 @@
-# aop-part5-chapter01 - CleanArchitecture로 쇼핑 앱 만들기
+# aop-part5-chapter02 - CleanArchitecture로 쇼핑 앱 만들기
 
 ---
 
